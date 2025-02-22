@@ -43,7 +43,6 @@ Before you begin, ensure you have the following installed:
 
 - [Daniel Ribeirinha-Braga](https://github.com/DBragz)
 - [Editor](https://github.com/replit) - AI Code Assistant
-- [Replit](https://github.com/replit)
 
 ## License
 
