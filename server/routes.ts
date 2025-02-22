@@ -30,5 +30,11 @@ export async function registerRoutes(app: Express) {
     res.status(201).json(incident);
   });
 
+  // Add route to clear storage
+  app.post("/api/clear", (_req, res) => {
+    (storage as any).clear(); //Added any type assertion for compilation.  The original code does not specify the type of storage.clear().
+    res.json({ message: "Storage cleared successfully" });
+  });
+
   return createServer(app);
 }

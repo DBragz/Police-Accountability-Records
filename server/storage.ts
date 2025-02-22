@@ -51,36 +51,47 @@ export class IPFSStorage implements IStorage {
 
     if (params.startDate) {
       const start = new Date(params.startDate);
-      results = results.filter(incident => incident.date >= start);
+      results = results.filter(incident => new Date(incident.date) >= start);
     }
 
     if (params.endDate) {
       const end = new Date(params.endDate);
-      results = results.filter(incident => incident.date <= end);
+      results = results.filter(incident => new Date(incident.date) <= end);
     }
 
-    return results.sort((a, b) => b.date.getTime() - a.date.getTime());
+    return results.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   }
 
   async createIncident(incident: InsertIncident): Promise<Incident> {
-    // Upload to IPFS first
-    const cid = await uploadToIPFS(incident);
-
-    // Create new incident with ID
     const id = this.currentId++;
     const newIncident = {
       ...incident,
-      id
+      id,
+      date: new Date(incident.date)
     } as Incident;
 
-    // Store in cache and track IPFS reference
-    this.cache.set(id, newIncident);
-    this.ipfsRefs.set(id, cid);
+    // Upload to IPFS
+    try {
+      const cid = await uploadToIPFS(newIncident);
+      this.ipfsRefs.set(id, cid);
+    } catch (error) {
+      console.error('Failed to upload to IPFS:', error);
+    }
 
+    // Store in cache
+    this.cache.set(id, newIncident);
     return newIncident;
+  }
+
+  // Clear all data
+  clear() {
+    this.cache.clear();
+    this.ipfsRefs.clear();
+    this.currentId = 1;
   }
 }
 
+// Create a new instance of the storage
 export const storage = new IPFSStorage();
 
 export interface IStorage {
