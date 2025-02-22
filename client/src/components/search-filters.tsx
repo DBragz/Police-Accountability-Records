@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { searchParamsSchema, type SearchParams } from "@shared/schema";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormDescription } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -31,8 +31,11 @@ export function SearchFilters({ onSearch, initialValues }: SearchFiltersProps) {
             <FormItem>
               <FormLabel>Location</FormLabel>
               <FormControl>
-                <Input placeholder="City, State" {...field} />
+                <Input placeholder="e.g., New York, NY" {...field} />
               </FormControl>
+              <FormDescription>
+                Enter city, state, or both
+              </FormDescription>
             </FormItem>
           )}
         />
@@ -69,8 +72,11 @@ export function SearchFilters({ onSearch, initialValues }: SearchFiltersProps) {
             <FormItem>
               <FormLabel>Department</FormLabel>
               <FormControl>
-                <Input placeholder="Police Department" {...field} />
+                <Input placeholder="e.g., NYPD" {...field} />
               </FormControl>
+              <FormDescription>
+                Enter full department name or abbreviation
+              </FormDescription>
             </FormItem>
           )}
         />
