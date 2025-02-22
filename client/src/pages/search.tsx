@@ -21,7 +21,6 @@ export default function Search() {
         updatedParams.set(key, value);
       }
     });
-    // Fix: Use setSearch as a function
     setSearch(() => updatedParams.toString());
   };
 
@@ -71,18 +70,6 @@ export default function Search() {
                     {incident.location}
                   </p>
                   <p>{incident.description}</p>
-                  <div className="mt-4">
-                    <h4 className="text-sm font-semibold mb-1">Sources:</h4>
-                    <ul className="text-sm text-blue-600">
-                      {incident.sources.map((source, i) => (
-                        <li key={i}>
-                          <a href={source.url} target="_blank" rel="noopener noreferrer">
-                            {source.title}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
                 </CardContent>
               </Card>
             ))

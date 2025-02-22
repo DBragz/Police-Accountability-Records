@@ -23,14 +23,12 @@ export default function AddIncident() {
       description: "",
       officerName: "",
       department: "",
-      sources: [],
       status: "Under Investigation"
     },
   });
 
   const mutation = useMutation({
     mutationFn: async (data: InsertIncident) => {
-      // Convert date to ISO string before sending
       const formattedData = {
         ...data,
         date: data.date.toISOString(),
@@ -153,39 +151,6 @@ export default function AddIncident() {
                         {...field} 
                       />
                     </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="sources"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Sources</FormLabel>
-                    <FormControl>
-                      <Textarea 
-                        placeholder="Enter each source on a new line as: https://example.com | News Article Title"
-                        className="min-h-[100px]"
-                        value={field.value.map(source => `${source.url} | ${source.title}`).join('\n')}
-                        onChange={(e) => {
-                          const sourcesText = e.target.value;
-                          const sources = sourcesText.split('\n')
-                            .filter(line => line.trim() !== '')
-                            .map(line => {
-                              const [url, title] = line.split('|').map(s => s.trim());
-                              if (!url || !title) return null;
-                              return { url, title };
-                            })
-                            .filter((source): source is {url: string, title: string} => source !== null);
-                          field.onChange(sources);
-                        }}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      Enter each source on a new line. Format: URL | Title
-                      Example: https://example.com | News Article Title
-                    </FormDescription>
                   </FormItem>
                 )}
               />
