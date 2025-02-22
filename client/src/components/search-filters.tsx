@@ -7,16 +7,17 @@ import { Button } from "@/components/ui/button";
 
 interface SearchFiltersProps {
   onSearch: (params: SearchParams) => void;
+  initialValues?: SearchParams;
 }
 
-export function SearchFilters({ onSearch }: SearchFiltersProps) {
+export function SearchFilters({ onSearch, initialValues }: SearchFiltersProps) {
   const form = useForm<SearchParams>({
     resolver: zodResolver(searchParamsSchema),
     defaultValues: {
-      location: "",
-      startDate: "",
-      endDate: "",
-      department: "",
+      location: initialValues?.location || "",
+      startDate: initialValues?.startDate || "",
+      endDate: initialValues?.endDate || "",
+      department: initialValues?.department || "",
     },
   });
 

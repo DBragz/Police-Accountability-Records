@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Search() {
   const [search, setSearch] = useSearch();
-  const params = new URLSearchParams(search);
+  const searchParams = new URLSearchParams(search);
 
   const { data: incidents, isLoading } = useQuery<Incident[]>({
     queryKey: ["/api/incidents", search],
@@ -15,18 +15,28 @@ export default function Search() {
   });
 
   const handleSearch = (params: SearchParams) => {
-    const searchParams = new URLSearchParams();
+    const updatedParams = new URLSearchParams();
     Object.entries(params).forEach(([key, value]) => {
-      if (value) searchParams.set(key, value);
+      if (value && typeof value === "string") {
+        updatedParams.set(key, value);
+      }
     });
-    setSearch(searchParams.toString());
+    setSearch(updatedParams.toString());
   };
 
   return (
     <div className="container py-10">
       <div className="grid gap-6 md:grid-cols-[300px_1fr]">
         <div>
-          <SearchFilters onSearch={handleSearch} />
+          <SearchFilters 
+            onSearch={handleSearch}
+            initialValues={{
+              location: searchParams.get("location") || "",
+              startDate: searchParams.get("startDate") || "",
+              endDate: searchParams.get("endDate") || "",
+              department: searchParams.get("department") || "",
+            }}
+          />
         </div>
         <div className="space-y-4">
           {isLoading ? (
