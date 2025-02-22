@@ -13,7 +13,13 @@ export const incidents = pgTable("incidents", {
   status: text("status").notNull(),
 });
 
-export const insertIncidentSchema = createInsertSchema(incidents).omit({ 
+export const insertIncidentSchema = createInsertSchema(incidents, {
+  date: z.string().transform(str => new Date(str)),
+  sources: z.array(z.object({
+    url: z.string().url("Must be a valid URL"),
+    title: z.string().min(1, "Title is required")
+  }))
+}).omit({ 
   id: true 
 });
 

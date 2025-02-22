@@ -165,15 +165,17 @@ export default function AddIncident() {
                     <FormLabel>Sources</FormLabel>
                     <FormControl>
                       <Textarea 
-                        placeholder="Enter one source per line in format: URL | Title"
+                        placeholder="Enter each source on a new line as: https://example.com | News Article Title"
                         className="min-h-[100px]"
                         value={field.value.map(source => `${source.url} | ${source.title}`).join('\n')}
                         onChange={(e) => {
                           const sourcesText = e.target.value;
                           const sources = sourcesText.split('\n')
+                            .filter(line => line.trim() !== '')
                             .map(line => {
                               const [url, title] = line.split('|').map(s => s.trim());
-                              return url && title ? { url, title } : null;
+                              if (!url || !title) return null;
+                              return { url, title };
                             })
                             .filter((source): source is {url: string, title: string} => source !== null);
                           field.onChange(sources);
@@ -181,7 +183,8 @@ export default function AddIncident() {
                       />
                     </FormControl>
                     <FormDescription>
-                      Enter each source on a new line using format: URL | Title
+                      Enter each source on a new line. Format: URL | Title
+                      Example: https://example.com | News Article Title
                     </FormDescription>
                   </FormItem>
                 )}
