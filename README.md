@@ -41,7 +41,7 @@ Before you begin, ensure you have the following installed:
 
 ## Authors
 
-- [Your Name](https://github.com/yourusername)
+- [Daniel Ribeirinha-Braga](https://github.com/DBragz)
 - [Replit](https://github.com/replit)
 
 ## License
