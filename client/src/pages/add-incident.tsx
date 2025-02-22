@@ -30,7 +30,13 @@ export default function AddIncident() {
 
   const mutation = useMutation({
     mutationFn: async (data: InsertIncident) => {
-      await apiRequest('POST', '/api/incidents', data);
+      // Convert date to ISO string before sending
+      const formattedData = {
+        ...data,
+        date: data.date.toISOString(),
+      };
+      console.log('Submitting data:', formattedData);
+      await apiRequest('POST', '/api/incidents', formattedData);
     },
     onSuccess: () => {
       toast({
@@ -40,6 +46,7 @@ export default function AddIncident() {
       setLocation('/search');
     },
     onError: (error) => {
+      console.error('Submission error:', error);
       toast({
         title: "Error",
         description: error.message,
@@ -153,28 +160,28 @@ export default function AddIncident() {
               <FormField
                 control={form.control}
                 name="sources"
-                render={({ field: { onChange, value } }) => (
+                render={({ field }) => (
                   <FormItem>
                     <FormLabel>Sources</FormLabel>
                     <FormControl>
                       <Textarea 
-                        placeholder="Enter sources in format: url,title;url,title"
+                        placeholder="Enter one source per line in format: URL | Title"
                         className="min-h-[100px]"
-                        value={value.map(source => `${source.url},${source.title}`).join(';')}
+                        value={field.value.map(source => `${source.url} | ${source.title}`).join('\n')}
                         onChange={(e) => {
                           const sourcesText = e.target.value;
-                          const sources = sourcesText.split(';')
-                            .map(source => {
-                              const [url, title] = source.split(',');
-                              return url && title ? { url: url.trim(), title: title.trim() } : null;
+                          const sources = sourcesText.split('\n')
+                            .map(line => {
+                              const [url, title] = line.split('|').map(s => s.trim());
+                              return url && title ? { url, title } : null;
                             })
                             .filter((source): source is {url: string, title: string} => source !== null);
-                          onChange(sources);
+                          field.onChange(sources);
                         }}
                       />
                     </FormControl>
                     <FormDescription>
-                      Enter each source as "URL,Title" separated by semicolons
+                      Enter each source on a new line using format: URL | Title
                     </FormDescription>
                   </FormItem>
                 )}
