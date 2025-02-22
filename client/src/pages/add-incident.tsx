@@ -18,7 +18,7 @@ export default function AddIncident() {
   const form = useForm<InsertIncident>({
     resolver: zodResolver(insertIncidentSchema),
     defaultValues: {
-      date: new Date(),
+      date: "",
       location: "",
       description: "",
       officerName: "",
@@ -31,7 +31,7 @@ export default function AddIncident() {
     mutationFn: async (data: InsertIncident) => {
       const formattedData = {
         ...data,
-        date: data.date.toISOString(),
+        date: new Date(data.date).toISOString(),
       };
       console.log('Submitting data:', formattedData);
       await apiRequest('POST', '/api/incidents', formattedData);
@@ -72,8 +72,6 @@ export default function AddIncident() {
                       <Input 
                         type="date" 
                         {...field}
-                        value={field.value instanceof Date ? field.value.toISOString().split('T')[0] : ''}
-                        onChange={(e) => field.onChange(new Date(e.target.value))}
                       />
                     </FormControl>
                   </FormItem>
