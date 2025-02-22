@@ -7,6 +7,8 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Search from "@/pages/search";
 import AddIncident from "@/pages/add-incident";
+import PublicRecords from "@/pages/public-records";
+import DataExport from "@/pages/data-export";
 
 function Router() {
   return (
@@ -14,6 +16,8 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/search" component={Search} />
       <Route path="/add" component={AddIncident} />
+      <Route path="/public-records" component={PublicRecords} />
+      <Route path="/data-export" component={DataExport} />
       <Route component={NotFound} />
     </Switch>
   );

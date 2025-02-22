@@ -37,7 +37,9 @@ export default function Home() {
             <p className="text-muted-foreground mb-4">
               Learn how to request public records and contribute to the database.
             </p>
-            <Button variant="outline" className="w-full">Learn More</Button>
+            <Link href="/public-records">
+              <Button variant="outline" className="w-full">Learn More</Button>
+            </Link>
           </CardContent>
         </Card>
 
@@ -48,7 +50,9 @@ export default function Home() {
             <p className="text-muted-foreground mb-4">
               Export and download data for research and analysis.
             </p>
-            <Button variant="outline" className="w-full">Export Data</Button>
+            <Link href="/data-export">
+              <Button variant="outline" className="w-full">Export Data</Button>
+            </Link>
           </CardContent>
         </Card>
       </div>
