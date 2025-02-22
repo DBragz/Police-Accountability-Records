@@ -6,12 +6,14 @@ import { NavBar } from "@/components/nav-bar";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Search from "@/pages/search";
+import AddIncident from "@/pages/add-incident";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/search" component={Search} />
+      <Route path="/add" component={AddIncident} />
       <Route component={NotFound} />
     </Switch>
   );

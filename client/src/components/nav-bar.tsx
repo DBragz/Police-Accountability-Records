@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Search, Home } from "lucide-react";
+import { Search, Home, PlusCircle } from "lucide-react";
 
 export function NavBar() {
   return (
@@ -23,6 +23,12 @@ export function NavBar() {
               <Button variant="ghost" className="flex items-center gap-2">
                 <Search className="h-4 w-4" />
                 Search Records
+              </Button>
+            </Link>
+            <Link href="/add">
+              <Button variant="ghost" className="flex items-center gap-2">
+                <PlusCircle className="h-4 w-4" />
+                Add Record
               </Button>
             </Link>
           </div>
