@@ -21,7 +21,8 @@ export default function Search() {
         updatedParams.set(key, value);
       }
     });
-    setSearch(updatedParams.toString());
+    // Fix: Use setSearch as a function
+    setSearch(() => updatedParams.toString());
   };
 
   return (

@@ -17,7 +17,7 @@ export class MemStorage implements IStorage {
     // Add sample data
     const sampleIncidents: InsertIncident[] = [
       {
-        date: new Date("2024-01-15").toISOString(),
+        date: new Date("2024-01-15"),
         location: "New York, NY",
         description: "Officer involved in excessive force complaint during arrest",
         officerName: "John Smith",
@@ -29,7 +29,7 @@ export class MemStorage implements IStorage {
         status: "Under Investigation"
       },
       {
-        date: new Date("2024-02-01").toISOString(),
+        date: new Date("2024-02-01"),
         location: "Los Angeles, CA",
         description: "Unauthorized use of force during traffic stop",
         officerName: "Michael Johnson",
@@ -40,7 +40,7 @@ export class MemStorage implements IStorage {
         status: "Pending Review"
       },
       {
-        date: new Date("2023-12-10").toISOString(),
+        date: new Date("2023-12-10"),
         location: "Chicago, IL",
         description: "Misconduct allegations during protest response",
         officerName: "Robert Wilson",
@@ -81,15 +81,15 @@ export class MemStorage implements IStorage {
 
     if (params.startDate) {
       const start = new Date(params.startDate);
-      results = results.filter(incident => new Date(incident.date) >= start);
+      results = results.filter(incident => incident.date >= start);
     }
 
     if (params.endDate) {
       const end = new Date(params.endDate);
-      results = results.filter(incident => new Date(incident.date) <= end);
+      results = results.filter(incident => incident.date <= end);
     }
 
-    return results.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    return results.sort((a, b) => b.date.getTime() - a.date.getTime());
   }
 
   async createIncident(incident: InsertIncident): Promise<Incident> {

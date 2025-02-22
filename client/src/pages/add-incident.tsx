@@ -14,11 +14,11 @@ import { useLocation } from "wouter";
 export default function AddIncident() {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
-  
+
   const form = useForm<InsertIncident>({
     resolver: zodResolver(insertIncidentSchema),
     defaultValues: {
-      date: new Date().toISOString().split('T')[0],
+      date: new Date(),
       location: "",
       description: "",
       officerName: "",
@@ -64,12 +64,17 @@ export default function AddIncident() {
                   <FormItem>
                     <FormLabel>Date of Incident</FormLabel>
                     <FormControl>
-                      <Input type="date" {...field} />
+                      <Input 
+                        type="date" 
+                        {...field}
+                        value={field.value instanceof Date ? field.value.toISOString().split('T')[0] : ''}
+                        onChange={(e) => field.onChange(new Date(e.target.value))}
+                      />
                     </FormControl>
                   </FormItem>
                 )}
               />
-              
+
               <FormField
                 control={form.control}
                 name="location"
@@ -148,14 +153,14 @@ export default function AddIncident() {
               <FormField
                 control={form.control}
                 name="sources"
-                render={({ field }) => (
+                render={({ field: { onChange, value } }) => (
                   <FormItem>
                     <FormLabel>Sources</FormLabel>
                     <FormControl>
                       <Textarea 
                         placeholder="Enter sources in format: url,title;url,title"
                         className="min-h-[100px]"
-                        {...field}
+                        value={value.map(source => `${source.url},${source.title}`).join(';')}
                         onChange={(e) => {
                           const sourcesText = e.target.value;
                           const sources = sourcesText.split(';')
@@ -164,11 +169,8 @@ export default function AddIncident() {
                               return url && title ? { url: url.trim(), title: title.trim() } : null;
                             })
                             .filter((source): source is {url: string, title: string} => source !== null);
-                          field.onChange(sources);
+                          onChange(sources);
                         }}
-                        value={field.value
-                          .map(source => `${source.url},${source.title}`)
-                          .join(';')}
                       />
                     </FormControl>
                     <FormDescription>
