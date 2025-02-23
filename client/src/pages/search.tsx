@@ -1,16 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import { useSearch } from "wouter";
+import { useSearchParams } from "react-router-dom";
 import type { Incident, SearchParams } from "@shared/schema";
 import { SearchFilters } from "@/components/search-filters";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Search() {
-  const [search, setSearch] = useSearch();
-  const searchParams = new URLSearchParams(search);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const { data: incidents, isLoading } = useQuery<Incident[]>({
-    queryKey: ["/api/incidents", search],
+    queryKey: ["/api/incidents", searchParams.toString()],
     enabled: true,
   });
 
@@ -21,7 +20,7 @@ export default function Search() {
         updatedParams.set(key, value);
       }
     });
-    setSearch(updatedParams.toString());
+    setSearchParams(updatedParams);
   };
 
   return (
