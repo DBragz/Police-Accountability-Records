@@ -24,9 +24,12 @@ export async function initDB() {
   });
 }
 
-export async function addIncident(incident: Omit<Incident, 'id'>) {
+export async function addIncident(incident: Omit<Incident, 'id'>): Promise<number> {
   const db = await initDB();
-  return db.add(STORE_NAME, incident as Incident);
+  return db.add(STORE_NAME, {
+    ...incident,
+    date: new Date(incident.date), // Ensure date is a Date object
+  } as Incident);
 }
 
 export async function getIncidents(): Promise<Incident[]> {

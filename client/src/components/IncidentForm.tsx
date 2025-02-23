@@ -6,7 +6,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { insertIncidentSchema, type InsertIncident } from '@shared/schema';
+import { insertIncidentSchema, type InsertIncident, type Incident } from '@shared/schema';
 import { addIncident } from '@/lib/localStore';
 import { apiRequest } from '@/lib/queryClient';
 
@@ -14,7 +14,7 @@ export function IncidentForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  
+
   const form = useForm<InsertIncident>({
     resolver: zodResolver(insertIncidentSchema),
     defaultValues: {
@@ -30,27 +30,37 @@ export function IncidentForm() {
   const onSubmit = async (data: InsertIncident) => {
     setIsSubmitting(true);
     try {
-      // Store locally first
-      await addIncident(data);
-      
-      // Optimistically update UI
-      queryClient.setQueryData(['incidents'], (old: InsertIncident[] = []) => [...old, data]);
-      
+      // Store locally first and get the ID
+      const localId = await addIncident(data);
+
+      // Create the complete incident object
+      const newIncident: Incident = {
+        id: localId,
+        ...data,
+        date: new Date(data.date),
+      };
+
+      // Optimistically update UI immediately
+      queryClient.setQueryData<Incident[]>(['incidents'], (old = []) => {
+        return [newIncident, ...old];
+      });
+
       // Then sync with server
       await apiRequest('POST', '/api/incidents', data);
-      
+
       // Show success message
       toast({
         title: 'Success',
         description: 'Incident record has been saved.',
       });
-      
+
       // Reset form
       form.reset();
-      
+
       // Invalidate and refetch to ensure sync
       queryClient.invalidateQueries({ queryKey: ['incidents'] });
     } catch (error) {
+      console.error('Error saving incident:', error);
       toast({
         title: 'Error',
         description: 'Failed to save incident. It will be synced when connection is restored.',
@@ -78,7 +88,7 @@ export function IncidentForm() {
               </Form.Item>
             )}
           />
-          
+
           <Form.Field
             control={form.control}
             name="location"
@@ -92,7 +102,7 @@ export function IncidentForm() {
               </Form.Item>
             )}
           />
-          
+
           <Form.Field
             control={form.control}
             name="officerName"
@@ -106,7 +116,7 @@ export function IncidentForm() {
               </Form.Item>
             )}
           />
-          
+
           <Form.Field
             control={form.control}
             name="department"
@@ -121,7 +131,7 @@ export function IncidentForm() {
             )}
           />
         </div>
-        
+
         <Form.Field
           control={form.control}
           name="description"
@@ -135,7 +145,7 @@ export function IncidentForm() {
             </Form.Item>
           )}
         />
-        
+
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? 'Saving...' : 'Submit Incident'}
         </Button>
