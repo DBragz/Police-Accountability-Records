@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -9,30 +9,34 @@ import Search from "@/pages/search";
 import AddIncident from "@/pages/add-incident";
 import PublicRecords from "@/pages/public-records";
 import DataExport from "@/pages/data-export";
+import IncidentDetail from "@/pages/incident/[id]";
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/search" component={Search} />
-      <Route path="/add" component={AddIncident} />
-      <Route path="/public-records" component={PublicRecords} />
-      <Route path="/data-export" component={DataExport} />
-      <Route component={NotFound} />
-    </Switch>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/search" element={<Search />} />
+      <Route path="/add" element={<AddIncident />} />
+      <Route path="/public-records" element={<PublicRecords />} />
+      <Route path="/data-export" element={<DataExport />} />
+      <Route path="/incident/:id" element={<IncidentDetail />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
   );
 }
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen flex flex-col">
-        <NavBar />
-        <main className="flex-1">
-          <Router />
-        </main>
-      </div>
-      <Toaster />
+      <BrowserRouter>
+        <div className="min-h-screen flex flex-col">
+          <NavBar />
+          <main className="flex-1">
+            <Router />
+          </main>
+        </div>
+        <Toaster />
+      </BrowserRouter>
     </QueryClientProvider>
   );
 }

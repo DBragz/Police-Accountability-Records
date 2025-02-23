@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Search, FileText, Database } from "lucide-react";
@@ -25,7 +25,7 @@ export default function Home() {
               <p className="text-muted-foreground mb-4">
                 Search through verified records by location, date, and department.
               </p>
-              <Link href="/search">
+              <Link to="/search">
                 <Button className="w-full">Search Now</Button>
               </Link>
             </CardContent>
@@ -38,7 +38,7 @@ export default function Home() {
               <p className="text-muted-foreground mb-4">
                 Learn how to request public records and contribute to the database.
               </p>
-              <Link href="/public-records">
+              <Link to="/public-records">
                 <Button variant="outline" className="w-full">Learn More</Button>
               </Link>
             </CardContent>
@@ -51,7 +51,7 @@ export default function Home() {
               <p className="text-muted-foreground mb-4">
                 Export and download data for research and analysis.
               </p>
-              <Link href="/data-export">
+              <Link to="/data-export">
                 <Button variant="outline" className="w-full">Export Data</Button>
               </Link>
             </CardContent>
