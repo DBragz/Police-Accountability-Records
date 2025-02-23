@@ -5,8 +5,8 @@ import { FileText, Download, ExternalLink } from "lucide-react";
 export default function PublicRecords() {
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="flex-grow container mx-auto px-4 py-10 max-w-7xl">
-        <div className="max-w-[980px] mx-auto">
+      <div className="flex-grow container mx-auto px-4 py-10 max-w-7xl flex flex-col items-center">
+        <div className="max-w-[980px] w-full">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold leading-tight tracking-tighter md:text-6xl lg:leading-[1.1] mb-6">
               Public Records Access
@@ -17,7 +17,7 @@ export default function PublicRecords() {
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 max-w-[980px] mx-auto">
+          <div className="grid gap-6 md:grid-cols-2 mx-auto">
             <Card>
               <CardContent className="pt-6 text-center">
                 <FileText className="w-12 h-12 mb-4 text-primary mx-auto" />
@@ -46,8 +46,8 @@ export default function PublicRecords() {
             </Card>
           </div>
 
-          <div className="mt-12 max-w-[980px] mx-auto">
-            <h2 className="text-2xl font-bold mb-4 text-center">Frequently Asked Questions</h2>
+          <div className="mt-12 text-center">
+            <h2 className="text-2xl font-bold mb-4">Frequently Asked Questions</h2>
             <div className="space-y-4">
               <div className="text-center">
                 <h3 className="font-semibold mb-2">What records can I request?</h3>
