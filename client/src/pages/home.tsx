@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Search, FileText, Database } from "lucide-react";
-import { OnboardingProgress } from "@/components/onboarding-progress";
 
 export default function Home() {
   return (
@@ -16,10 +15,6 @@ export default function Home() {
             Access and search public records of police accountability. All information is sourced from
             publicly available data with clear citations.
           </p>
-        </div>
-
-        <div className="my-12">
-          <OnboardingProgress />
         </div>
 
         <div className="grid gap-6 mt-12 md:grid-cols-3 max-w-[980px] mx-auto">
