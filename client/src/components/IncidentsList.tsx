@@ -8,24 +8,25 @@ export function IncidentsList() {
     queryFn: async () => {
       // Get local data first
       const localIncidents = await getIncidents();
-      
+
       try {
         // Then fetch from server and merge
         const response = await fetch('/api/incidents');
         if (!response.ok) throw new Error('Failed to fetch');
         const serverIncidents: Incident[] = await response.json();
-        
+
         // Merge and deduplicate by ID
         const merged = [...localIncidents, ...serverIncidents];
         const unique = merged.filter((incident, index, self) =>
           index === self.findIndex((t) => t.id === incident.id)
         );
-        
-        return unique;
+
+        // Sort by date, newest first
+        return unique.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       } catch (error) {
         // If server fetch fails, return local data
         console.warn('Failed to fetch from server, using local data:', error);
-        return localIncidents;
+        return localIncidents.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       }
     },
   });

@@ -43,13 +43,13 @@ export function IncidentForm() {
       // Then sync with server
       await apiRequest('POST', '/api/incidents', data);
 
-      // Update cache and trigger refetch
-      await queryClient.invalidateQueries({ queryKey: ['incidents'] });
-
       // Update the UI optimistically
       queryClient.setQueryData<Incident[]>(['incidents'], (old = []) => {
         return [newIncident, ...old];
       });
+
+      // Invalidate queries to trigger a refresh
+      await queryClient.invalidateQueries({ queryKey: ['incidents'] });
 
       // Show success message
       toast({
