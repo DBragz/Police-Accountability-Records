@@ -1,8 +1,49 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Download, BarChart, FileJson, Table } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { downloadJSON, downloadCSV } from "@/lib/exportUtils";
+import type { Incident } from "@shared/schema";
+import { useToast } from "@/hooks/use-toast";
 
 export default function DataExport() {
+  const { toast } = useToast();
+  const { data: incidents, isLoading } = useQuery<Incident[]>({
+    queryKey: ["/api/incidents"],
+  });
+
+  const handleJSONDownload = () => {
+    if (!incidents?.length) {
+      toast({
+        title: "No Data Available",
+        description: "There are currently no incidents to export.",
+        variant: "destructive",
+      });
+      return;
+    }
+    downloadJSON(incidents);
+    toast({
+      title: "Download Started",
+      description: "Your JSON file is being downloaded.",
+    });
+  };
+
+  const handleCSVDownload = () => {
+    if (!incidents?.length) {
+      toast({
+        title: "No Data Available",
+        description: "There are currently no incidents to export.",
+        variant: "destructive",
+      });
+      return;
+    }
+    downloadCSV(incidents);
+    toast({
+      title: "Download Started",
+      description: "Your CSV file is being downloaded.",
+    });
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <div className="flex-grow container mx-auto px-4 py-10 max-w-7xl">
@@ -23,8 +64,13 @@ export default function DataExport() {
                 <p className="text-muted-foreground mb-4 text-center">
                   Complete dataset in JSON format, ideal for web applications and data analysis.
                 </p>
-                <Button variant="outline" className="w-full">
-                  Download JSON
+                <Button 
+                  variant="outline" 
+                  className="w-full"
+                  onClick={handleJSONDownload}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Loading..." : "Download JSON"}
                   <Download className="w-4 h-4 ml-2" />
                 </Button>
               </CardContent>
@@ -37,8 +83,13 @@ export default function DataExport() {
                 <p className="text-muted-foreground mb-4 text-center">
                   Spreadsheet-friendly CSV format, perfect for statistical analysis and Excel.
                 </p>
-                <Button variant="outline" className="w-full">
-                  Download CSV
+                <Button 
+                  variant="outline" 
+                  className="w-full"
+                  onClick={handleCSVDownload}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Loading..." : "Download CSV"}
                   <Download className="w-4 h-4 ml-2" />
                 </Button>
               </CardContent>
