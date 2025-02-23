@@ -18,7 +18,7 @@ export default function AddIncident() {
   const form = useForm<InsertIncident>({
     resolver: zodResolver(insertIncidentSchema),
     defaultValues: {
-      date: "",
+      date: new Date().toISOString().split('T')[0], // Convert Date to YYYY-MM-DD string
       location: "",
       description: "",
       officerName: "",
