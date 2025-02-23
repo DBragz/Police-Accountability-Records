@@ -32,12 +32,6 @@ export function NavBar() {
 
         {/* Desktop navigation */}
         <div className="hidden md:flex md:gap-6">
-          <Link to="/">
-            <Button variant="ghost" className="flex items-center gap-2">
-              <Home className="h-4 w-4" />
-              Home
-            </Button>
-          </Link>
           <Link to="/add">
             <Button variant="ghost" className="flex items-center gap-2">
               <PlusCircle className="h-4 w-4" />
