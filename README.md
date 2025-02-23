@@ -17,7 +17,7 @@ A comprehensive web platform for aggregating and transparently displaying public
 - **React 18** with TypeScript for type-safe component development
 - **shadcn/ui** for beautiful, accessible UI components
 - **TanStack Query** (React Query v5) for server state management
-- **Wouter** for lightweight routing
+- **React Router** for dynamic routing and navigation
 - **React Hook Form** with Zod for form validation
 - **Tailwind CSS** for utility-first styling
 - **Lucide React** for beautiful icons
