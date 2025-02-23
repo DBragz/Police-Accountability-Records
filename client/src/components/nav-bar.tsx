@@ -56,12 +56,6 @@ export function NavBar() {
         {mobileMenuOpen && (
           <div className="absolute top-14 left-0 right-0 bg-background border-b md:hidden">
             <div className="container py-4 space-y-2">
-              <Link to="/">
-                <Button variant="ghost" className="w-full justify-start gap-2">
-                  <Home className="h-4 w-4" />
-                  Home
-                </Button>
-              </Link>
               <Link to="/add">
                 <Button variant="ghost" className="w-full justify-start gap-2">
                   <PlusCircle className="h-4 w-4" />
