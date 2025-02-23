@@ -55,7 +55,7 @@ export default function AddIncident() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="flex-grow container mx-auto px-4 py-10 max-w-7xl flex items-center justify-center">
+      <div className="flex-grow container mx-auto px-4 py-10 max-w-7xl flex justify-center">
         <Card className="max-w-2xl w-full">
           <CardHeader className="text-center">
             <CardTitle className="text-3xl font-bold leading-tight tracking-tighter">Add New Incident Record</CardTitle>
