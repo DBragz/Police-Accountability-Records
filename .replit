@@ -13,13 +13,6 @@ run = ["npm", "run", "start"]
 [[ports]]
 localPort = 5000
 externalPort = 80
-<<<<<<< HEAD
-=======
-
-[[ports]]
-localPort = 8000
-externalPort = 8000
->>>>>>> 96d1234ff2bba5d71e3e1c25e22c15a6017e65eb
 
 [workflows]
 runButton = "Project"
