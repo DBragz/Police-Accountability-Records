@@ -40,13 +40,16 @@ export function IncidentForm() {
         date: new Date(data.date),
       };
 
-      // Optimistically update UI immediately
+      // Then sync with server
+      await apiRequest('POST', '/api/incidents', data);
+
+      // Update cache and trigger refetch
+      await queryClient.invalidateQueries({ queryKey: ['incidents'] });
+
+      // Update the UI optimistically
       queryClient.setQueryData<Incident[]>(['incidents'], (old = []) => {
         return [newIncident, ...old];
       });
-
-      // Then sync with server
-      await apiRequest('POST', '/api/incidents', data);
 
       // Show success message
       toast({
@@ -57,8 +60,6 @@ export function IncidentForm() {
       // Reset form
       form.reset();
 
-      // Invalidate and refetch to ensure sync
-      queryClient.invalidateQueries({ queryKey: ['incidents'] });
     } catch (error) {
       console.error('Error saving incident:', error);
       toast({
