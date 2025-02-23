@@ -20,26 +20,26 @@ export default function Home() {
         <div className="grid gap-6 mt-12 md:grid-cols-3 max-w-[980px] mx-auto">
           <Card>
             <CardContent className="pt-6">
-              <Search className="w-12 h-12 mb-4 text-primary" />
-              <h2 className="text-xl font-bold mb-2">Search Records</h2>
+              <FileText className="w-12 h-12 mb-4 text-primary" />
+              <h2 className="text-xl font-bold mb-2">Add Record</h2>
               <p className="text-muted-foreground mb-4">
-                Search through verified records by location, date, and department.
+                Submit verified police accountability records with proper documentation.
               </p>
-              <Link to="/search">
-                <Button className="w-full">Search Now</Button>
+              <Link to="/add">
+                <Button className="w-full">Add New Record</Button>
               </Link>
             </CardContent>
           </Card>
 
           <Card>
             <CardContent className="pt-6">
-              <FileText className="w-12 h-12 mb-4 text-primary" />
-              <h2 className="text-xl font-bold mb-2">Public Records</h2>
+              <Search className="w-12 h-12 mb-4 text-primary" />
+              <h2 className="text-xl font-bold mb-2">Search Records</h2>
               <p className="text-muted-foreground mb-4">
-                Learn how to request public records and contribute to the database.
+                Search through verified records by location, date, and department.
               </p>
-              <Link to="/public-records">
-                <Button variant="outline" className="w-full">Learn More</Button>
+              <Link to="/search">
+                <Button variant="outline" className="w-full">Search Now</Button>
               </Link>
             </CardContent>
           </Card>
