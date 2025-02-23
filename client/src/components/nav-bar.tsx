@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Search, Home, PlusCircle, Menu } from "lucide-react";
+import { Search, Home, PlusCircle, Database, Menu } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export function NavBar() {
@@ -38,16 +38,22 @@ export function NavBar() {
               Home
             </Button>
           </Link>
+          <Link to="/add">
+            <Button variant="ghost" className="flex items-center gap-2">
+              <PlusCircle className="h-4 w-4" />
+              Add Record
+            </Button>
+          </Link>
           <Link to="/search">
             <Button variant="ghost" className="flex items-center gap-2">
               <Search className="h-4 w-4" />
               Search Records
             </Button>
           </Link>
-          <Link to="/add">
+          <Link to="/data-export">
             <Button variant="ghost" className="flex items-center gap-2">
-              <PlusCircle className="h-4 w-4" />
-              Add Record
+              <Database className="h-4 w-4" />
+              Data Export
             </Button>
           </Link>
         </div>
@@ -62,16 +68,22 @@ export function NavBar() {
                   Home
                 </Button>
               </Link>
+              <Link to="/add">
+                <Button variant="ghost" className="w-full justify-start gap-2">
+                  <PlusCircle className="h-4 w-4" />
+                  Add Record
+                </Button>
+              </Link>
               <Link to="/search">
                 <Button variant="ghost" className="w-full justify-start gap-2">
                   <Search className="h-4 w-4" />
                   Search Records
                 </Button>
               </Link>
-              <Link to="/add">
+              <Link to="/data-export">
                 <Button variant="ghost" className="w-full justify-start gap-2">
-                  <PlusCircle className="h-4 w-4" />
-                  Add Record
+                  <Database className="h-4 w-4" />
+                  Data Export
                 </Button>
               </Link>
             </div>
