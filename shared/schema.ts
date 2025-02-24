@@ -1,25 +1,25 @@
-import { pgTable, text, serial, timestamp, varchar } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const incidents = pgTable("incidents", {
-  id: serial("id").primaryKey(),
-  date: timestamp("date").notNull(),
-  location: text("location").notNull(),
-  description: text("description").notNull(),
-  officerName: text("officer_name").notNull(),
-  department: text("department").notNull(),
-  status: text("status").notNull(),
-});
+export interface Incident {
+  id: number;
+  date: Date;
+  location: string;
+  description: string;
+  officerName: string;
+  department: string;
+  status: string;
+}
 
-export const insertIncidentSchema = createInsertSchema(incidents, {
-  date: z.string().transform(str => new Date(str)),
-}).omit({ 
-  id: true 
+export const insertIncidentSchema = z.object({
+  date: z.string().min(1, "Date is required"),
+  location: z.string().min(1, "Location is required"),
+  description: z.string().min(1, "Description is required"),
+  officerName: z.string().min(1, "Officer name is required"),
+  department: z.string().min(1, "Department is required"),
+  status: z.string().min(1, "Status is required")
 });
 
 export type InsertIncident = z.infer<typeof insertIncidentSchema>;
-export type Incident = typeof incidents.$inferSelect;
 
 export const searchParamsSchema = z.object({
   location: z.string().optional(),

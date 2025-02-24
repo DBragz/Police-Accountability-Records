@@ -26,8 +26,7 @@ A comprehensive web platform for aggregating and transparently displaying public
 ### Backend
 - **Express.js** with TypeScript for API development
 - **IPFS** via Pinata for decentralized data storage
-- **Drizzle ORM** with Zod for type-safe database operations
-- **PostgreSQL** (optional) for persistent storage
+- **IndexedDB** for offline persistence
 
 ## Prerequisites
 
@@ -76,7 +75,7 @@ The application will be available at `http://localhost:5000`.
 │   │   └── pages/        # Page components
 ├── server/                # Backend Express application
 │   ├── routes.ts         # API route definitions
-│   ├── storage.ts        # Data storage interface
+│   ├── storage.ts        # IPFS storage interface
 │   └── ipfs.ts          # IPFS integration
 └── shared/               # Shared TypeScript types
     └── schema.ts        # Zod schemas and types
