@@ -1,17 +1,17 @@
-import PinataClient from '@pinata/sdk';
-import { Buffer } from 'buffer';
+import PinataClient from "@pinata/sdk";
+import { Buffer } from "buffer";
 
 let pinata: typeof PinataClient | null = null;
 
 // Initialize Pinata client
 export async function initializePinata() {
   if (!process.env.PINATA_API_KEY || !process.env.PINATA_SECRET_KEY) {
-    throw new Error('Pinata credentials not found');
+    throw new Error("Pinata credentials not found");
   }
 
   pinata = new PinataClient(
     process.env.PINATA_API_KEY,
-    process.env.PINATA_SECRET_KEY
+    process.env.PINATA_SECRET_KEY,
   );
 }
 
@@ -22,8 +22,8 @@ export async function uploadToIPFS(data: any): Promise<string> {
   const buffer = Buffer.from(JSON.stringify(data));
   const result = await pinata!.pinJSONToIPFS(data, {
     pinataMetadata: {
-      name: `incident-${Date.now()}`
-    }
+      name: `incident-${Date.now()}`,
+    },
   });
 
   return result.IpfsHash;
