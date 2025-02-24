@@ -50,13 +50,13 @@ export class IPFSStorage implements IStorage {
     }
 
     if (params.startDate) {
-      const start = new Date(params.startDate);
-      results = results.filter(incident => new Date(incident.date) >= start);
+      const start = new Date(params.startDate).getTime();
+      results = results.filter(incident => new Date(incident.date).getTime() >= start);
     }
 
     if (params.endDate) {
-      const end = new Date(params.endDate);
-      results = results.filter(incident => new Date(incident.date) <= end);
+      const end = new Date(params.endDate).getTime();
+      results = results.filter(incident => new Date(incident.date).getTime() <= end);
     }
 
     return results.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
