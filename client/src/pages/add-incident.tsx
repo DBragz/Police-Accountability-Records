@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { Plus, X } from "lucide-react";
 
 export default function AddIncident() {
   const { toast } = useToast();
@@ -23,7 +24,8 @@ export default function AddIncident() {
       description: "",
       officerName: "",
       department: "",
-      status: "Under Investigation"
+      status: "Under Investigation",
+      sources: []
     },
   });
 
@@ -33,7 +35,6 @@ export default function AddIncident() {
         ...data,
         date: new Date(data.date).toISOString(),
       };
-      console.log('Submitting data:', formattedData);
       await apiRequest('POST', '/api/incidents', formattedData);
     },
     onSuccess: () => {
@@ -52,6 +53,16 @@ export default function AddIncident() {
       });
     },
   });
+
+  const addSource = () => {
+    const sources = form.getValues("sources") || [];
+    form.setValue("sources", [...sources, { url: "", title: "" }]);
+  };
+
+  const removeSource = (index: number) => {
+    const sources = form.getValues("sources") || [];
+    form.setValue("sources", sources.filter((_, i) => i !== index));
+  };
 
   return (
     <div className="container mx-auto px-4 py-6">
@@ -156,6 +167,57 @@ export default function AddIncident() {
                   </FormItem>
                 )}
               />
+
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <FormLabel>Sources & Citations</FormLabel>
+                  <Button type="button" variant="outline" size="sm" onClick={addSource}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Source
+                  </Button>
+                </div>
+                {form.watch("sources")?.map((source, index) => (
+                  <div key={index} className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <FormLabel>Source {index + 1}</FormLabel>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => removeSource(index)}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    <div className="grid gap-4 md:grid-cols-2">
+                      <FormField
+                        control={form.control}
+                        name={`sources.${index}.title`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Title</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Source title" {...field} />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name={`sources.${index}.url`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>URL</FormLabel>
+                            <FormControl>
+                              <Input placeholder="https://..." {...field} />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
 
               <div className="flex justify-center mt-6">
                 <Button 
