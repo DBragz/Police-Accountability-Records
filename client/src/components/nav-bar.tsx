@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Search, Home, PlusCircle, Database, Menu } from "lucide-react";
+import { Search, PlusCircle, Database, Menu } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export function NavBar() {
