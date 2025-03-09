@@ -9,7 +9,7 @@ import Search from "@/pages/search";
 import AddIncident from "@/pages/add-incident";
 import PublicRecords from "@/pages/public-records";
 import DataExport from "@/pages/data-export";
-import IncidentDetail from "@/pages/incident/[id]";
+import IncidentDetail from "@/pages/incident/details";
 
 function Router() {
   return (
