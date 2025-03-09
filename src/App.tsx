@@ -5,6 +5,8 @@ import Layout from './components/Layout';
 const queryClient = new QueryClient();
 
 function App() {
+  console.log('App component mounted - Welcome to Police Accountability Records');
+
   return (
     <QueryClientProvider client={queryClient}>
       <Layout>
