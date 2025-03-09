@@ -8,9 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useMutation } from "@tanstack/react-query";
-import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, X } from "lucide-react";
+import { ipfsService } from "@/lib/ipfs";
 
 export default function AddIncident() {
   const { toast } = useToast();
@@ -35,12 +35,12 @@ export default function AddIncident() {
         ...data,
         date: new Date(data.date).toISOString(),
       };
-      await apiRequest('POST', '/api/incidents', formattedData);
+      return ipfsService.createIncident(formattedData);
     },
     onSuccess: () => {
       toast({
         title: "Success",
-        description: "Incident record has been created",
+        description: "Incident record has been created and stored on IPFS",
       });
       navigate('/search');
     },
@@ -48,7 +48,7 @@ export default function AddIncident() {
       console.error('Submission error:', error);
       toast({
         title: "Error",
-        description: error.message,
+        description: error instanceof Error ? error.message : 'Failed to store incident on IPFS',
         variant: "destructive",
       });
     },

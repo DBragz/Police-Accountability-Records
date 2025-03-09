@@ -5,11 +5,13 @@ import { useQuery } from "@tanstack/react-query";
 import { downloadJSON, downloadCSV } from "@/lib/exportUtils";
 import type { Incident } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
+import { ipfsService } from "@/lib/ipfs";
 
 export default function DataExport() {
   const { toast } = useToast();
-  const { data: incidents, isLoading } = useQuery<Incident[]>({
-    queryKey: ["/api/incidents"],
+  const { data: incidents, isLoading } = useQuery({
+    queryKey: ['incidents'],
+    queryFn: () => ipfsService.searchIncidents({}),
   });
 
   const handleJSONDownload = () => {
@@ -98,11 +100,11 @@ export default function DataExport() {
             <Card>
               <CardContent className="pt-6">
                 <BarChart className="w-12 h-12 mb-4 text-primary mx-auto" />
-                <h2 className="text-xl font-bold mb-2 text-center">API Access</h2>
+                <h2 className="text-xl font-bold mb-2 text-center">IPFS Access</h2>
                 <p className="text-muted-foreground mb-4 text-center">
-                  Direct API access for real-time data integration and custom applications.
+                  Direct IPFS access for real-time data integration and custom applications.
                 </p>
-                <Button className="w-full">View API Docs</Button>
+                <Button className="w-full">View IPFS Docs</Button>
               </CardContent>
             </Card>
           </div>
